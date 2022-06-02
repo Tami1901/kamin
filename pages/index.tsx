@@ -7,13 +7,12 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-    <Flex h="100vh" backgroundColor="gray.800" justifyContent="center">
+    <Flex h="100vh" justifyContent="center">
       <VStack
         width="40%"
         h="40%"
         mt="40"
         borderRadius="5px"
-        shadow="rgb(38, 57, 77) 0px 20px 100px 10px;"
         justifyContent="center"
         spacing={40}
       >
@@ -27,8 +26,9 @@ const Home: NextPage = () => {
           color="blue.800"
           _hover={{ color: "white", backgroundColor: "blue.600" }}
           _active={{ color: "white", backgroundColor: "blue.800" }}
+          href="/rooms/"
         >
-          Discover
+          Login
         </LinkButton>
       </VStack>
     </Flex>
