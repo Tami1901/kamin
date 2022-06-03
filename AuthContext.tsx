@@ -7,6 +7,7 @@ import {
 } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import axios from "axios";
 
 const TOKEN_KEY = "token";
 
@@ -63,6 +64,11 @@ export const AuthContextProvider: React.FC<{
       push("/");
     }
   }, [asPath, push, token, error, data]);
+
+  useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ token, handleLoginToken, handleLogout }}>

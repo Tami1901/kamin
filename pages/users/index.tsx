@@ -1,6 +1,7 @@
 import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Editable,
   Flex,
   Heading,
@@ -11,14 +12,20 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useConfirm, useConfirmDelete } from "chakra-confirm";
+import {
+  useConfirm,
+  useConfirmDelete,
+  usePrompt,
+  usePromptWithClose,
+} from "chakra-confirm";
 import { DataTable } from "chakra-data-table";
 import { LinkButton, LinkIconButton } from "chakra-next-link";
 import type { NextPage } from "next";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { GetRole } from "../../fetchers/GetRole";
-import { GetTag } from "../../fetchers/GetTag";
+import { GetTags } from "../../fetchers/GetTags";
 import { DefaultLayout } from "../../layout";
+import { getResourceUrl } from "../_app";
 
 type ListResources<K extends string, V> = {
   _embedded: Record<K, V[]>;
@@ -38,6 +45,9 @@ export type User = {
     role: {
       href: string;
     };
+    self: {
+      href: string;
+    };
   };
 };
 
@@ -53,13 +63,12 @@ export type Tag = {
   };
 };
 
-export type TagsList = ListResources<"yags", Tag>;
+export type TagsList = ListResources<"tags", Tag>;
 
 const Rooms: NextPage = () => {
   const { data, error } = useSWR<UsersList>("/api/users");
-  const { data: tagsData, error: tagsError } = useSWR<TagsList>("/api/tags");
+  const global = useSWRConfig();
 
-  console.log(tagsData);
   const toast = useToast();
   const confirm = useConfirmDelete();
   const handleDelete = async (id: number) => {
@@ -70,6 +79,29 @@ const Rooms: NextPage = () => {
       } catch (error) {
         toast({ status: "error", title: "Error deleting user" });
       }
+    }
+  };
+
+  const prompt = usePrompt({ title: "Add new tag for user" });
+  const addNewTag = (userId: number, userThingy: string) => async () => {
+    const serial = await prompt();
+    if (!serial) {
+      return;
+    }
+
+    try {
+      await axios.post("/api/tags", {
+        serialCode: serial,
+        user: userThingy,
+      });
+
+      global.mutate(`/api/userRelations/${userId}/tags`, (tags: any) => [
+        ...tags,
+        { id: "_newTag", serialCode: serial },
+      ]);
+      toast({ status: "success", title: "Tag added" });
+    } catch (error) {
+      toast({ status: "error", title: "Error adding tag" });
     }
   };
 
@@ -103,26 +135,32 @@ const Rooms: NextPage = () => {
           <Flex justifyContent="center">
             <DataTable
               data={data._embedded?.users}
-              keys={["id", "name", "role", "tag", "actions"] as const}
+              keys={["id", "name", "role", "tags", "actions"] as const}
               mapper={{
                 id: true,
-                name: (user: User) => user.fullName,
+                name: (user) => user.fullName,
                 role: (user) => <GetRole url={user._links.role.href} />,
-                tag: (user) => "01234567",
-                actions: (row) => (
+                tags: (user) => <GetTags id={user.id} />,
+                actions: (user) => (
                   <HStack>
+                    <Button
+                      size="sm"
+                      onClick={addNewTag(user.id, user._links.self.href)}
+                    >
+                      Add new tag
+                    </Button>
                     <LinkIconButton
                       aria-label="Edit"
                       size="sm"
                       colorScheme="blue"
                       icon={<EditIcon />}
-                      href={`/rooms/${row.id}/edit`}
+                      href={`/rooms/${user.id}/edit`}
                     />
                     <IconButton
                       aria-label="Delete"
                       colorScheme="red"
                       size="sm"
-                      onClick={() => handleDelete(row.id)}
+                      onClick={() => handleDelete(user.id)}
                       icon={<DeleteIcon />}
                     />
                   </HStack>

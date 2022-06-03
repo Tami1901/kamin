@@ -16,9 +16,7 @@ export const UserForm: React.FC<{
   value?: UserFormType;
   onSubmit: (values: UserFormType) => Promise<void>;
 }> = ({ value, onSubmit }) => {
-  const { data: rolesData } = useSWR<RolesList>(
-    "http://localhost:8080/userRoles"
-  );
+  const { data: rolesData } = useSWR<RolesList>("/api/userRoles");
 
   console.log(rolesData);
   return (

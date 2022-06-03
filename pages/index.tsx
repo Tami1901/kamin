@@ -27,10 +27,7 @@ const Home: NextPage = () => {
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     try {
-      const res = await axios.post(
-        `http://localhost:8080/api/auth/login`,
-        data
-      );
+      const res = await axios.post(`/api/auth/login`, data);
       handleLoginToken(res.data.token);
       router.push("/users");
     } catch (err) {

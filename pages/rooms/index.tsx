@@ -26,16 +26,14 @@ import type { NextPage } from "next";
 import useSWR from "swr";
 import { DefaultLayout } from "../../layout";
 import { GrUserSettings } from "react-icons/gr";
-import { Form, ReactSelectField, Select, SelectField } from "chakra-form";
+import { Form, ReactSelectField } from "chakra-form";
 import { User, UsersList } from "../users";
-import ReactSelect from "react-select";
 
 const UsersModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
-  const { data, error } = useSWR("http://localhost:8080/users");
-
+  const { data, error } = useSWR("/api/users");
   const mapData = data
     ? data._embedded.users.map((user: User) => {
         return {
@@ -44,6 +42,7 @@ const UsersModal: React.FC<{
         };
       })
     : [];
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

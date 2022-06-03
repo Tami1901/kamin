@@ -20,7 +20,7 @@ const CreateRooms: NextPage = () => {
   const router = useRouter();
   const onSubmit = async (values: UserFormType) => {
     axios
-      .post("http://localhost:8080/users", { ...values })
+      .post("/api/users", { ...values })
       .then(() => {
         toast({
           status: "success",

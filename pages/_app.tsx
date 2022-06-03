@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ConfirmContextProvider } from "chakra-confirm";
@@ -6,7 +5,7 @@ import { SWRConfig } from "swr";
 
 import { AuthContextProvider, useGetTokenState } from "../AuthContext";
 
-const getResourceUrl = (resource: string) => {
+export const getResourceUrl = (resource: string) => {
   if (resource.startsWith("http")) {
     return resource;
   }
