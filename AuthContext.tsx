@@ -57,7 +57,15 @@ export const AuthContextProvider: React.FC<{
 
   const { data, error } = useSWR(token ? "/api/auth/me" : null);
   useEffect(() => {
-    const tokenMissing = !token && asPath !== "/" && asPath !== "/register";
+    if (asPath == "/" || asPath == "/register") {
+      if (token) {
+        push("/users");
+      }
+
+      return;
+    }
+
+    const tokenMissing = !token;
     const apiWrong = !data && error;
 
     if (tokenMissing || apiWrong) {
@@ -66,7 +74,12 @@ export const AuthContextProvider: React.FC<{
   }, [asPath, push, token, error, data]);
 
   useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common["Authorization"];
+    }
+
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
   }, [token]);
 

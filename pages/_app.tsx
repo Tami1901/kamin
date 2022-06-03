@@ -27,7 +27,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         fetcher: (resource, init) =>
           fetch(getResourceUrl(resource), {
             ...init,
-            mode: "no-cors",
             headers: {
               ...init?.headers,
               ...(tokenState.token

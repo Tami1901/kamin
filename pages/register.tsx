@@ -7,6 +7,7 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { Form, InputField } from "chakra-form";
 import { Link } from "chakra-next-link";
 import type { NextPage } from "next";
@@ -14,11 +15,19 @@ import { z } from "zod";
 
 const schema = z.object({
   name: z.string(),
-  email: z.string().email(),
+  username: z.string(),
   password: z.string().min(6),
 });
 
 const Home: NextPage = () => {
+  const onSubmit = async (data: z.infer<typeof schema>) => {
+    await axios.post(`/api/auth/register`, {
+      username: data.username,
+      fullName: data.name,
+      password: data.password,
+    });
+  };
+
   return (
     <Flex h="100vh" justifyContent="center" backgroundColor="gray.200">
       <Box
@@ -48,26 +57,17 @@ const Home: NextPage = () => {
         </Heading>
         <Form
           schema={schema}
-          onSubmit={(data) => {
-            alert({
-              title: "Submitted data",
-              body: (
-                <Code whiteSpace="pre" w="full">
-                  {JSON.stringify(data, null, 2)}
-                </Code>
-              ),
-            });
-          }}
+          onSubmit={onSubmit}
           initialValues={{
             name: "Foo",
-            email: "foo@bar.com",
+            username: "foo",
             password: "password",
           }}
         >
           <VStack w="50%" mt="2" align="flex-start" spacing={6}>
             <InputField name="name" />
 
-            <InputField name="email" />
+            <InputField name="username" />
 
             <InputField name="password" />
 

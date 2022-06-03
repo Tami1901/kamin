@@ -12,6 +12,7 @@ import { Form, InputField } from "chakra-form";
 import { Link } from "chakra-next-link";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useSWRConfig } from "swr";
 import { z } from "zod";
 import { useAuthContext } from "../AuthContext";
 
@@ -24,10 +25,12 @@ const schema = z.object({
 const Home: NextPage = () => {
   const { handleLoginToken } = useAuthContext();
   const router = useRouter();
+  const global = useSWRConfig();
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     try {
       const res = await axios.post(`/api/auth/login`, data);
+      await global.mutate(`/api/auth/me`);
       handleLoginToken(res.data.token);
       router.push("/users");
     } catch (err) {
