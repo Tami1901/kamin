@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 const TOKEN_KEY = "token";
 
@@ -25,21 +32,37 @@ const getToken = () => {
   return localStorage.getItem(TOKEN_KEY);
 };
 
-export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const useGetTokenState = () => {
   const [token, setToken] = useState<string | null>(getToken());
+  return { token, setToken };
+};
+
+export const AuthContextProvider: React.FC<{
+  children: ReactNode;
+  tokenState: ReturnType<typeof useGetTokenState>;
+}> = ({ children, tokenState }) => {
+  const { token, setToken } = tokenState;
   const handleLoginToken = (_token: string) => {
     localStorage.setItem(TOKEN_KEY, _token);
     setToken(_token);
   };
 
-  const router = useRouter();
+  const { asPath, push } = useRouter();
   const handleLogout = () => {
     setToken(null);
     localStorage.removeItem(TOKEN_KEY);
-    router.push("/");
+    push("/");
   };
+
+  const { data, error } = useSWR(token ? "/api/auth/me" : null);
+  useEffect(() => {
+    const tokenMissing = !token && asPath !== "/" && asPath !== "/register";
+    const apiWrong = !data && error;
+
+    if (tokenMissing || apiWrong) {
+      push("/");
+    }
+  }, [asPath, push, token, error, data]);
 
   return (
     <AuthContext.Provider value={{ token, handleLoginToken, handleLogout }}>

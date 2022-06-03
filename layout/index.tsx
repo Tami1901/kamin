@@ -6,12 +6,15 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link } from "chakra-next-link";
+import useSWR from "swr";
 import { useAuthContext } from "../AuthContext";
 
 export const DefaultLayout = ({ children }: any) => {
   const { handleLogout } = useAuthContext();
+  const { data } = useSWR("/api/auth/me");
 
   return (
     <Box>
@@ -68,7 +71,11 @@ export const DefaultLayout = ({ children }: any) => {
           </Link>
           <Menu>
             <MenuButton>
-              <Avatar name="Tamara Luzija" />
+              {data ? (
+                <Avatar name={data.fullName} />
+              ) : (
+                <Spinner height="48px" width="48px" />
+              )}
             </MenuButton>
             <MenuList>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>

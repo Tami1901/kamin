@@ -1,42 +1,50 @@
-import "../styles/globals.css";
+import { useContext } from "react";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import { SWRConfig } from "swr";
 import { ConfirmContextProvider } from "chakra-confirm";
-import { AuthContext, AuthContextProvider } from "../AuthContext";
-import { useContext } from "react";
+import { SWRConfig } from "swr";
 
-const InnerApp = ({ Component, pageProps }: AppProps) => {
-  const { token } = useContext(AuthContext);
+import { AuthContextProvider, useGetTokenState } from "../AuthContext";
+
+const getResourceUrl = (resource: string) => {
+  if (resource.startsWith("http")) {
+    return resource;
+  }
+
+  if (!resource.startsWith("/")) {
+    resource = `/${resource}`;
+  }
+
+  return `${process.env.NEXT_PUBLIC_API_ENDPOINT}${resource}`;
+};
+
+function MyApp({ Component, pageProps }: AppProps) {
+  const tokenState = useGetTokenState();
 
   return (
     <SWRConfig
       value={{
         refreshInterval: 3000,
         fetcher: (resource, init) =>
-          fetch(resource, {
+          fetch(getResourceUrl(resource), {
             ...init,
             headers: {
               ...init?.headers,
-              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              ...(tokenState.token
+                ? { Authorization: `Bearer ${tokenState.token}` }
+                : {}),
             },
           }).then((res) => res.json()),
       }}
     >
-      <ChakraProvider>
-        <ConfirmContextProvider>
-          <Component {...pageProps} />
-        </ConfirmContextProvider>
-      </ChakraProvider>
+      <AuthContextProvider tokenState={tokenState}>
+        <ChakraProvider>
+          <ConfirmContextProvider>
+            <Component {...pageProps} />
+          </ConfirmContextProvider>
+        </ChakraProvider>
+      </AuthContextProvider>
     </SWRConfig>
-  );
-};
-
-function MyApp(props: AppProps) {
-  return (
-    <AuthContextProvider>
-      <InnerApp {...props} />
-    </AuthContextProvider>
   );
 }
 

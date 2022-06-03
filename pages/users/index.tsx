@@ -16,8 +16,8 @@ import { DataTable } from "chakra-data-table";
 import { LinkButton, LinkIconButton } from "chakra-next-link";
 import type { NextPage } from "next";
 import useSWR from "swr";
-import { GetRole } from "../../Fetchers/GetRole";
-import { GetTag } from "../../Fetchers/GetTag";
+import { GetRole } from "../../fetchers/GetRole";
+import { GetTag } from "../../fetchers/GetTag";
 import { DefaultLayout } from "../../layout";
 
 type ListResources<K extends string, V> = {
