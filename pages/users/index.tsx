@@ -56,10 +56,8 @@ export type Tag = {
 export type TagsList = ListResources<"yags", Tag>;
 
 const Rooms: NextPage = () => {
-  const { data, error } = useSWR<UsersList>("http://localhost:8080/api/users");
-  const { data: tagsData, error: tagsError } = useSWR<TagsList>(
-    "http://localhost:8080/api/tags"
-  );
+  const { data, error } = useSWR<UsersList>("/api/users");
+  const { data: tagsData, error: tagsError } = useSWR<TagsList>("/api/tags");
 
   console.log(tagsData);
   const toast = useToast();
@@ -67,7 +65,7 @@ const Rooms: NextPage = () => {
   const handleDelete = async (id: number) => {
     if (await confirm()) {
       try {
-        await axios.delete(`http://localhost:8080/users/${id}`);
+        await axios.delete(`/api/users/${id}`);
         toast({ status: "success", title: "User deleted" });
       } catch (error) {
         toast({ status: "error", title: "Error deleting user" });

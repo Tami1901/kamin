@@ -40,14 +40,14 @@ export type Role = {
 export type RolesList = ListResources<"userRoles", Role>;
 
 const Roles: NextPage = () => {
-  const { data, error } = useSWR<RolesList>("http://localhost:8080/userRoles");
+  const { data, error } = useSWR<RolesList>("/api/userRoles");
 
   const toast = useToast();
   const confirm = useConfirmDelete();
   const handleDelete = async (id: number) => {
     if (await confirm()) {
       try {
-        await axios.delete(`http://localhost:8080/userRoles/${id}`);
+        await axios.delete(`/api/userRoles/${id}`);
         toast({ status: "success", title: "Role deleted" });
       } catch (error) {
         toast({ status: "error", title: "Error deleting role" });

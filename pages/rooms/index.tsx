@@ -110,8 +110,8 @@ type Room = {
 type RoomsList = ListResources<"rooms", Room>;
 
 const Rooms: NextPage = () => {
-  const { data, error } = useSWR<RoomsList>("http://localhost:8080/rooms");
-  const { data: userData } = useSWR<UsersList>("http://localhost:8080/users");
+  const { data, error } = useSWR<RoomsList>("/api/rooms");
+  const { data: userData } = useSWR<UsersList>("/api/users");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toast = useToast();
@@ -119,7 +119,7 @@ const Rooms: NextPage = () => {
   const handleDelete = async (id: number) => {
     if (await confirm()) {
       try {
-        await axios.delete(`http://localhost:8080/rooms/${id}`);
+        await axios.delete(`/api/rooms/${id}`);
         toast({ status: "success", title: "Room deleted" });
       } catch (error) {
         toast({ status: "error", title: "Error deleting room" });

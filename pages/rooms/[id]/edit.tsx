@@ -9,14 +9,14 @@ import { DefaultLayout } from "../../../layout";
 const EditRooms: NextPage = () => {
   const router = useRouter();
   const { data, error, mutate } = useSWR(
-    router.query.id ? "http://localhost:8080/rooms/" + router.query.id : null
+    router.query.id ? "/api/rooms/" + router.query.id : null
   );
   const toast = useToast();
   if (!data) return <Spinner />;
 
   const onSubmit = async (values: RoomFormType) => {
     axios
-      .put(`http://localhost:8080/rooms/${router.query.id}`, values)
+      .put(`/api/rooms/${router.query.id}`, values)
       .then(() => {
         toast({
           status: "success",
@@ -24,7 +24,7 @@ const EditRooms: NextPage = () => {
         });
         router.push("/rooms");
         mutate();
-        mutate("http://localhost:8080/rooms");
+        mutate("/api/rooms");
       })
       .catch((error) => {
         toast({
