@@ -22,8 +22,8 @@ import { DataTable } from "chakra-data-table";
 import { LinkButton, LinkIconButton } from "chakra-next-link";
 import type { NextPage } from "next";
 import useSWR, { useSWRConfig } from "swr";
-import { GetRole } from "../../fetchers/GetRole";
-import { GetTags } from "../../fetchers/GetTags";
+import { GetRole } from "../../fetcher/GetRole";
+import { GetTags } from "../../fetcher/GetTags";
 import { DefaultLayout } from "../../layout";
 import { getResourceUrl } from "../_app";
 
