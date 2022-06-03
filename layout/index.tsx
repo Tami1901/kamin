@@ -8,8 +8,11 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { Link } from "chakra-next-link";
+import { useAuthContext } from "../AuthContext";
 
 export const DefaultLayout = ({ children }: any) => {
+  const { handleLogout } = useAuthContext();
+
   return (
     <Box>
       <Flex
@@ -68,7 +71,7 @@ export const DefaultLayout = ({ children }: any) => {
               <Avatar name="Tamara Luzija" />
             </MenuButton>
             <MenuList>
-              <MenuItem>Logout</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </HStack>

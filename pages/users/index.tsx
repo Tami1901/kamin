@@ -56,9 +56,9 @@ export type Tag = {
 export type TagsList = ListResources<"yags", Tag>;
 
 const Rooms: NextPage = () => {
-  const { data, error } = useSWR<UsersList>("http://localhost:8080/users");
+  const { data, error } = useSWR<UsersList>("http://localhost:8080/api/users");
   const { data: tagsData, error: tagsError } = useSWR<TagsList>(
-    "http://localhost:8080/tags"
+    "http://localhost:8080/api/tags"
   );
 
   console.log(tagsData);

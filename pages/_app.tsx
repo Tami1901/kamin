@@ -3,14 +3,24 @@ import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { SWRConfig } from "swr";
 import { ConfirmContextProvider } from "chakra-confirm";
+import { AuthContext, AuthContextProvider } from "../AuthContext";
+import { useContext } from "react";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const InnerApp = ({ Component, pageProps }: AppProps) => {
+  const { token } = useContext(AuthContext);
+
   return (
     <SWRConfig
       value={{
         refreshInterval: 3000,
         fetcher: (resource, init) =>
-          fetch(resource, init).then((res) => res.json()),
+          fetch(resource, {
+            ...init,
+            headers: {
+              ...init?.headers,
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+          }).then((res) => res.json()),
       }}
     >
       <ChakraProvider>
@@ -19,6 +29,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         </ConfirmContextProvider>
       </ChakraProvider>
     </SWRConfig>
+  );
+};
+
+function MyApp(props: AppProps) {
+  return (
+    <AuthContextProvider>
+      <InnerApp {...props} />
+    </AuthContextProvider>
   );
 }
 
