@@ -22,9 +22,15 @@ export const DefaultLayout = ({ children }: any) => {
         backgroundColor="gray.700"
         p="16px 36px"
       >
-        <Heading size="lg" color="white" fontFamily="monospace">
-          KAMIN
-        </Heading>
+        <Link
+          href="/occupancy"
+          color="white"
+          _activeLink={{ fontWeight: "bold", color: "blue.200" }}
+        >
+          <Heading size="lg" color="white" fontFamily="monospace">
+            KAMIN
+          </Heading>
+        </Link>
         <HStack spacing="6">
           <Link
             href="/users"

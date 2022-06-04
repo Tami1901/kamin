@@ -16,7 +16,7 @@ import type { NextPage } from "next";
 import useSWR from "swr";
 import { DefaultLayout } from "../../layout";
 
-type ListResources<K extends string, V> = {
+export type ListResources<K extends string, V> = {
   _embedded: Record<K, V[]>;
   _links: Record<"self" | "profile", { href: string }>;
   page: {
