@@ -3,7 +3,7 @@ import { Form, InputField, SelectField } from "chakra-form";
 import { LinkButton } from "chakra-next-link";
 import useSWR from "swr";
 import { z } from "zod";
-import { RolesList } from "../pages/roles";
+import { RolesList } from "pages/roles";
 
 const userSchema = z.object({
   fullName: z.string(),

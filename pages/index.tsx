@@ -14,7 +14,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 import { z } from "zod";
-import { useAuthContext } from "../AuthContext";
+import { useAuthContext } from "components/AuthContext";
 
 const schema = z.object({
   username: z.string(),

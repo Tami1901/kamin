@@ -2,7 +2,7 @@ import axios from "axios";
 import { Box, Flex, Heading, useToast } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { RoomForm, RoomFormType } from "../../forms/RoomForm";
+import { RoomForm, RoomFormType } from "../../components/forms/RoomForm";
 import { DefaultLayout } from "../../layout";
 
 const CreateRooms: NextPage = () => {
@@ -36,7 +36,7 @@ const CreateRooms: NextPage = () => {
           mb="30px"
         >
           <Heading size="lg" color="gray.800">
-            Add new group
+            Add new room
           </Heading>
         </Flex>
         <RoomForm onSubmit={onSubmit} />

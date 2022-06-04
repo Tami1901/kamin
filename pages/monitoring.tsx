@@ -5,8 +5,8 @@ import { Box, Flex, Heading, Spinner } from "@chakra-ui/react";
 import { DataTable } from "chakra-data-table";
 
 import { ListResources } from "types";
-import { GetRoom } from "fetcher/GetRoom";
-import { GetUserByEventId } from "fetcher/GetUserByEventId";
+import { GetRoom } from "components/fetcher/GetRoom";
+import { GetUserByEventId } from "components/fetcher/GetUserByEventId";
 import { DefaultLayout } from "layout";
 
 type Event = {

@@ -1,6 +1,6 @@
 import { Heading, Spinner, Tag } from "@chakra-ui/react";
 import useSWR from "swr";
-import { Role } from "../pages/roles";
+import { Role } from "pages/roles";
 
 export const GetRole: React.FC<{ url: string }> = ({ url }) => {
   const { data, error } = useSWR<Role>(url);

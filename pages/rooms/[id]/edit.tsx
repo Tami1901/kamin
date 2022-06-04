@@ -3,7 +3,7 @@ import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { RoomForm, RoomFormType } from "../../../forms/RoomForm";
+import { RoomForm, RoomFormType } from "../../../components/forms/RoomForm";
 import { DefaultLayout } from "../../../layout";
 
 const EditRooms: NextPage = () => {

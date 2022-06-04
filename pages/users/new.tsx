@@ -11,8 +11,8 @@ import {
 import axios from "axios";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { RoomForm, RoomFormType } from "../../forms/RoomForm";
-import { UserForm, UserFormType } from "../../forms/UserForm";
+import { RoomForm, RoomFormType } from "../../components/forms/RoomForm";
+import { UserForm, UserFormType } from "../../components/forms/UserForm";
 import { DefaultLayout } from "../../layout";
 
 const CreateRooms: NextPage = () => {

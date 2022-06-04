@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "chakra-next-link";
 import useSWR from "swr";
-import { useAuthContext } from "../AuthContext";
+import { useAuthContext } from "components/AuthContext";
 
 export const DefaultLayout = ({ children }: any) => {
   const { handleLogout } = useAuthContext();

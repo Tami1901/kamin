@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { ConfirmContextProvider } from "chakra-confirm";
 import { SWRConfig } from "swr";
 
-import { AuthContextProvider, useGetTokenState } from "../AuthContext";
+import { AuthContextProvider, useGetTokenState } from "components/AuthContext";
 
 export const getResourceUrl = (resource: string) => {
   if (resource.startsWith("http")) {

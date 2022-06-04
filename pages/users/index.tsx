@@ -16,8 +16,8 @@ import { LinkButton, LinkIconButton } from "chakra-next-link";
 import type { NextPage } from "next";
 import useSWR, { useSWRConfig } from "swr";
 import { ListResources } from "types";
-import { GetRole } from "fetcher/GetRole";
-import { GetTags } from "fetcher/GetTags";
+import { GetRole } from "components/fetcher/GetRole";
+import { GetTags } from "components/fetcher/GetTags";
 import { DefaultLayout } from "layout";
 
 export type User = {
