@@ -14,7 +14,7 @@ export const getResourceUrl = (resource: string) => {
     resource = `/${resource}`;
   }
 
-  return `${process.env.NEXT_PUBLIC_API_ENDPOINT}${resource}`;
+  return `${process.env.NEXT_PUBLIC_API_ENDPOINT || ""}${resource}`;
 };
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -80,7 +80,7 @@ export const AuthContextProvider: React.FC<{
       delete axios.defaults.headers.common["Authorization"];
     }
 
-    axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+    axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_ENDPOINT || "";
   }, [token]);
 
   return (
