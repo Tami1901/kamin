@@ -78,7 +78,7 @@ export const useRoomPermissions = () => {
 
   const byRoomRoles = useMemo(() => {
     if (!allAccessSWR.data) {
-      return {};
+      return null;
     }
 
     return allAccessSWR.data.roleHasAccess.reduce<
@@ -206,7 +206,7 @@ export const useRoomPermissions = () => {
   const onAddRoleToRoom =
     (roomId: number, rolesList: RolesList) => async () => {
       const filteredRoles = rolesList._embedded.userRoles.filter(
-        (role) => !byRoomRoles[roomId]?.find((a) => a.id === role.id)
+        (role) => !byRoomRoles?.[roomId]?.find((a) => a.id === role.id)
       );
       if (filteredRoles.length === 0) {
         toast({
