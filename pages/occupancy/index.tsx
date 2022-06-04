@@ -9,47 +9,17 @@ import {
   Spinner,
   Stat,
   StatArrow,
-  StatGroup,
   StatHelpText,
   StatLabel,
   StatNumber,
   VStack,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { NextPage } from "next";
 import useSWR from "swr";
-import { number } from "zod";
 import { DefaultLayout } from "../../layout";
 import { ListResources } from "../roles";
 import { RoomsList } from "../rooms";
-
-const RoomStat: React.FC<{ users: RoomOccupancy | undefined }> = ({
-  users,
-}) => {
-  return (
-    <Flex justifyContent="center">
-      <Stat>
-        <StatLabel>In</StatLabel>
-        <StatNumber>345,670</StatNumber>
-        <StatHelpText>
-          <StatArrow type="increase" />
-          23.36%
-        </StatHelpText>
-      </Stat>
-
-      <Flex>
-        {users?.map((u) => (
-          <Box key={u.id} mr="4">
-            {u.user.fullName}
-          </Box>
-        ))}
-      </Flex>
-      <HStack>
-        <Button colorScheme="green">Open</Button>
-        <Button colorScheme="red">Close</Button>
-      </HStack>
-    </Flex>
-  );
-};
 
 type RoomOccupancy = {
   id: number;
@@ -103,6 +73,17 @@ const Occupancy: NextPage = () => {
 
     return all;
   }, {});
+
+  const onUnlock = (id: number) => () => {
+    console.log("here?");
+    axios.get(`/aws_lambda/open_specific`, {
+      method: "GET",
+      data: { room_id: id.toString() },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
   return (
     <DefaultLayout>
@@ -170,8 +151,9 @@ const Occupancy: NextPage = () => {
                       .join(", ")}
                   </Flex>
                   <HStack justifyContent="flex-end">
-                    <Button colorScheme="green">Open</Button>
-                    <Button colorScheme="red">Lock</Button>
+                    <Button colorScheme="green" onClick={onUnlock(room.id)}>
+                      Open
+                    </Button>
                   </HStack>
                 </SimpleGrid>
               ))

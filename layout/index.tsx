@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, HStack } from "@chakra-ui/layout";
 import {
   Avatar,
+  Button,
   Menu,
   MenuButton,
   MenuItem,
@@ -10,10 +11,26 @@ import {
 import { Link } from "chakra-next-link";
 import useSWR from "swr";
 import { useAuthContext } from "components/AuthContext";
+import { useState } from "react";
 
 export const DefaultLayout = ({ children }: any) => {
   const { handleLogout } = useAuthContext();
   const { data } = useSWR("/api/auth/me");
+
+  const [loadings, setLoadings] = useState<string[]>([]);
+  const onLambda = (path: string) => async () => {
+    try {
+      setLoadings([...loadings, path]);
+      await fetch(`/aws_lambda/${path}`);
+    } finally {
+      setLoadings((prev) => prev.filter((p) => p !== path));
+    }
+  };
+
+  const lambdaProps = (path: string) => ({
+    onClick: onLambda(path),
+    isLoading: loadings.includes(path),
+  });
 
   return (
     <Box>
@@ -32,6 +49,10 @@ export const DefaultLayout = ({ children }: any) => {
           </Heading>
         </Link>
         <HStack spacing="6">
+          <Button {...lambdaProps("lockdown")}>Lock all</Button>
+          <Button {...lambdaProps("emergency")}>UnLock all</Button>
+          <Button {...lambdaProps("reset")}>Reset locks</Button>
+
           <Link
             href="/users"
             color="white"
@@ -67,6 +88,7 @@ export const DefaultLayout = ({ children }: any) => {
           >
             Monitoring
           </Link>
+
           <Menu>
             <MenuButton>
               {data ? (
