@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { AddIcon, DeleteIcon, EditIcon, MinusIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, MinusIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  Editable,
   Flex,
   Heading,
   HStack,
@@ -16,10 +15,9 @@ import {
   ModalOverlay,
   Spinner,
   useToast,
-  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useConfirm, useConfirmDelete } from "chakra-confirm";
+import { useConfirmDelete } from "chakra-confirm";
 import { DataTable } from "chakra-data-table";
 import { LinkButton, LinkIconButton } from "chakra-next-link";
 import type { NextPage } from "next";
@@ -101,7 +99,7 @@ type ListResources<K extends string, V> = {
   };
 };
 
-type Room = {
+export type Room = {
   id: number;
   description: string;
 };

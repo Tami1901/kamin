@@ -1,14 +1,5 @@
-import { DeleteIcon } from "@chakra-ui/icons";
-import {
-  useToast,
-  Flex,
-  Spinner,
-  HStack,
-  IconButton,
-  Heading,
-  Box,
-} from "@chakra-ui/react";
 import axios from "axios";
+import { Box, Flex, Heading, useToast } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { RoomForm, RoomFormType } from "../../forms/RoomForm";

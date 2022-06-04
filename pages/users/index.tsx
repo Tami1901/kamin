@@ -1,42 +1,24 @@
-import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  Editable,
   Flex,
   Heading,
   HStack,
   IconButton,
   Spinner,
   useToast,
-  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import {
-  useConfirm,
-  useConfirmDelete,
-  usePrompt,
-  usePromptWithClose,
-} from "chakra-confirm";
+import { useConfirmDelete, usePrompt } from "chakra-confirm";
 import { DataTable } from "chakra-data-table";
 import { LinkButton, LinkIconButton } from "chakra-next-link";
 import type { NextPage } from "next";
 import useSWR, { useSWRConfig } from "swr";
-import { GetRole } from "../../fetcher/GetRole";
-import { GetTags } from "../../fetcher/GetTags";
-import { DefaultLayout } from "../../layout";
-import { getResourceUrl } from "../_app";
-
-type ListResources<K extends string, V> = {
-  _embedded: Record<K, V[]>;
-  _links: Record<"self" | "profile", { href: string }>;
-  page: {
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    number: number;
-  };
-};
+import { ListResources } from "types";
+import { GetRole } from "fetcher/GetRole";
+import { GetTags } from "fetcher/GetTags";
+import { DefaultLayout } from "layout";
 
 export type User = {
   id: number;

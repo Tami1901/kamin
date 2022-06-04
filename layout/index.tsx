@@ -1,7 +1,6 @@
 import { Box, Flex, Heading, HStack } from "@chakra-ui/layout";
 import {
   Avatar,
-  Button,
   Menu,
   MenuButton,
   MenuItem,
@@ -47,13 +46,6 @@ export const DefaultLayout = ({ children }: any) => {
             _activeLink={{ fontWeight: "bold", color: "blue.200" }}
           >
             Rooms
-          </Link>
-          <Link
-            href="/tags"
-            color="white"
-            _activeLink={{ fontWeight: "bold", color: "blue.200" }}
-          >
-            Tags
           </Link>
           <Link
             href="/occupancy"
