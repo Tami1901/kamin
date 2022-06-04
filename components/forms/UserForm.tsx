@@ -1,4 +1,4 @@
-import { Select, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import { Form, InputField, SelectField } from "chakra-form";
 import { LinkButton } from "chakra-next-link";
 import useSWR from "swr";
@@ -17,8 +17,12 @@ export const UserForm: React.FC<{
   onSubmit: (values: UserFormType) => Promise<void>;
 }> = ({ value, onSubmit }) => {
   const { data: rolesData } = useSWR<RolesList>("/api/userRoles");
+  if (!rolesData) {
+    return <Spinner />;
+  }
 
-  console.log(rolesData);
+  console.log(value);
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -28,17 +32,13 @@ export const UserForm: React.FC<{
       buttonsLeft={<LinkButton href="/users">Cancel</LinkButton>}
     >
       <InputField name="fullName" />
-      {rolesData ? (
-        <SelectField name="role" placeholder="Choose role">
-          {rolesData._embedded.userRoles.map((role) => (
-            <option key={role.id} value={role._links.self.href}>
-              {role.roleName}
-            </option>
-          ))}
-        </SelectField>
-      ) : (
-        <Spinner />
-      )}
+      <SelectField name="role" placeholder="Choose role">
+        {rolesData._embedded.userRoles.map((role) => (
+          <option key={role.id} value={role._links.self.href}>
+            {role.roleName}
+          </option>
+        ))}
+      </SelectField>
     </Form>
   );
 };

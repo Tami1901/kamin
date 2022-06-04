@@ -48,7 +48,7 @@ export type Tag = {
 export type TagsList = ListResources<"tags", Tag>;
 
 const Rooms: NextPage = () => {
-  const { data, error } = useSWR<UsersList>("/api/users");
+  const { data, error } = useSWR<UsersList>("/api/users?sort=id.asc");
   const global = useSWRConfig();
 
   const toast = useToast();
@@ -136,7 +136,7 @@ const Rooms: NextPage = () => {
                       size="sm"
                       colorScheme="blue"
                       icon={<EditIcon />}
-                      href={`/rooms/${user.id}/edit`}
+                      href={`/users/${user.id}/edit`}
                     />
                     <IconButton
                       aria-label="Delete"
