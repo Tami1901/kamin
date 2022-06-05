@@ -55,8 +55,6 @@ const Roles: NextPage = () => {
     }
   };
 
-  console.log(data);
-
   return (
     <DefaultLayout>
       <Box justifyContent="center">

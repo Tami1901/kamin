@@ -22,7 +22,6 @@ export const DefaultLayout = ({ children }: any) => {
   const [loadings, setLoadings] = useState<string[]>([]);
 
   const onLambda = (path: string) => async () => {
-    console.log(path);
     try {
       setLoadings([...loadings, path]);
       const res = await fetch(`/aws_lambda/${path}`);

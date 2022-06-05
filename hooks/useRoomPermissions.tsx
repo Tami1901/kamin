@@ -121,7 +121,6 @@ export const useRoomPermissions = () => {
         user: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/users/${userId}`,
         room: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/rooms/${roomId}`,
       };
-      console.log(body);
       await axios.post(`/api/hasAccess`, body);
       toast({
         title: "User added",

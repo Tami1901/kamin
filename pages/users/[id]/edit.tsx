@@ -39,7 +39,6 @@ const CreateRooms: NextPage = () => {
           status: "error",
           title: "Error updating user",
         });
-        console.log("values", values);
       });
   };
 

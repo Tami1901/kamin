@@ -21,8 +21,6 @@ export const UserForm: React.FC<{
     return <Spinner />;
   }
 
-  console.log(value);
-
   return (
     <Form
       onSubmit={onSubmit}

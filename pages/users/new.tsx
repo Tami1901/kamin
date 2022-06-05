@@ -33,7 +33,6 @@ const CreateRooms: NextPage = () => {
           status: "error",
           title: "Error creating user",
         });
-        console.log("values", values);
       });
   };
 
