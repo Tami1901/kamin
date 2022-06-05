@@ -41,10 +41,15 @@ const MonitoringPage: NextPage = () => {
             keys={["time", "room", "user", "direction"] as const}
             data={data._embedded.events}
             mapper={{
-              time: (event) => new Date(event.tstmp).toLocaleTimeString(),
+              time: (event) => new Date(event.tstmp).toString().slice(0, 24),
               room: (event) => <GetRoom url={event._links.room.href} />,
               user: (event) => <GetUserByEventId eventId={event.id} />,
-              direction: (event) => (event.isEntry ? "Entry" : "Exit"),
+              direction: (event) =>
+                event.isEntry === null
+                  ? "Denied access"
+                  : event.isEntry
+                  ? "Entry"
+                  : "Exit",
             }}
           />
         )}
