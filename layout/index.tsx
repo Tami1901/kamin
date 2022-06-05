@@ -7,6 +7,7 @@ import {
   MenuItem,
   MenuList,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { Link } from "chakra-next-link";
 import useSWR from "swr";
@@ -16,12 +17,27 @@ import { useState } from "react";
 export const DefaultLayout = ({ children }: any) => {
   const { handleLogout } = useAuthContext();
   const { data } = useSWR("/api/auth/me");
+  const toast = useToast();
 
   const [loadings, setLoadings] = useState<string[]>([]);
+
   const onLambda = (path: string) => async () => {
+    console.log(path);
     try {
       setLoadings([...loadings, path]);
-      await fetch(`/aws_lambda/${path}`);
+      const res = await fetch(`/aws_lambda/${path}`);
+      if (res.ok) {
+        toast({
+          status: "success",
+          title: `${
+            path === "lockdown"
+              ? "All doors are locked"
+              : path === "emergency"
+              ? "All doors are unlocked"
+              : "All locks are reset"
+          }`,
+        });
+      }
     } finally {
       setLoadings((prev) => prev.filter((p) => p !== path));
     }
