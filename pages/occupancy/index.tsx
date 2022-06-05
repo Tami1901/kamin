@@ -76,7 +76,7 @@ const Occupancy: NextPage = () => {
 
   const onUnlock = (id: number) => () => {
     console.log("here?");
-    axios.get(`/aws_lambda/open_specific/room_id=${id}`);
+    axios.get(`/aws_lambda/open_specific?room_id=${id}`);
   };
 
   return (
